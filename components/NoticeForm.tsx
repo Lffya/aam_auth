@@ -20,7 +20,15 @@ interface NoticeFormProps {
 }
 
 export function NoticeForm({ notice, onClose, onSave }: NoticeFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string
+    description: string
+    category: string
+    priority: "low" | "medium" | "high"
+    regulatory: string
+    fileUrl: string
+    fileName: string
+  }>({
     title: "",
     description: "",
     category: "",
