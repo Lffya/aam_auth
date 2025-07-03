@@ -62,20 +62,12 @@ const mockResolutions: Resolution[] = [
 ]
 
 export default function MeetingsPage() {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [currentUser] = useState<User | null>(null)
   const [meetings] = useState<Meeting[]>(mockMeetings)
   const [resolutions] = useState<Resolution[]>(mockResolutions)
 
   const handleRegistrationClick = () => {
-    if (!currentUser) {
-      setIsAuthModalOpen(true)
-    }
-  }
-
-  const handleAuthSuccess = (user: User) => {
-    setCurrentUser(user)
-    setIsAuthModalOpen(false)
+    // Placeholder: Trigger modal or redirect logic if implemented
   }
 
   const upcomingMeetings = meetings.filter((meeting) => meeting.type === "upcoming")
@@ -84,6 +76,7 @@ export default function MeetingsPage() {
   return (
     <div className="min-h-screen bg-background">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* header */}
         <div className="mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#c6a35d] mb-4">Shareholder Meetings</h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
@@ -92,32 +85,21 @@ export default function MeetingsPage() {
           </p>
         </div>
 
+        {/* upcoming meetings */}
         {upcomingMeetings.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold text-foreground mb-6">Upcoming Meetings</h2>
             <div className="grid gap-6">
               {upcomingMeetings.map((meeting) => (
-                <Card
-                  key={meeting.id}
-                  className="border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20"
-                >
+                <Card key={meeting.id} className="border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20">
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
                       <div>
                         <CardTitle className="text-xl text-foreground mb-2">{meeting.title}</CardTitle>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-muted-foreground">
-                          <div className="flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4" />
-                            <span>{meeting.date}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <Clock className="h-4 w-4" />
-                            <span>{meeting.time}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <MapPin className="h-4 w-4" />
-                            <span>{meeting.location}</span>
-                          </div>
+                          <div className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /><span>{meeting.date}</span></div>
+                          <div className="flex items-center gap-1.5"><Clock className="h-4 w-4" /><span>{meeting.time}</span></div>
+                          <div className="flex items-center gap-1.5"><MapPin className="h-4 w-4" /><span>{meeting.location}</span></div>
                         </div>
                       </div>
                       <Badge className="bg-amber-600 text-black self-start sm:self-center">{meeting.status}</Badge>
@@ -139,21 +121,13 @@ export default function MeetingsPage() {
                         </Button>
                       )}
                       {meeting.joinButton && (
-                        <Button
-                          variant="outline"
-                          className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                          disabled
-                        >
+                        <Button variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                           <Video className="mr-2 h-4 w-4" />
                           {meeting.joinButton}
                         </Button>
                       )}
                       {meeting.noticeButton && (
-                        <Button
-                          variant="outline"
-                          className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                          disabled
-                        >
+                        <Button variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                           <Download className="mr-2 h-4 w-4" />
                           {meeting.noticeButton}
                         </Button>
@@ -166,6 +140,7 @@ export default function MeetingsPage() {
           </div>
         )}
 
+        {/* resolutions */}
         {resolutions.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold text-foreground mb-6">Recent Resolutions</h2>
@@ -181,8 +156,8 @@ export default function MeetingsPage() {
                           resolution.status === "approved"
                             ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
                             : resolution.status === "rejected"
-                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
-                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100"
+                            ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
+                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100"
                         }`}
                       >
                         {resolution.status}
@@ -197,6 +172,7 @@ export default function MeetingsPage() {
           </div>
         )}
 
+        {/* past meetings */}
         {pastMeetings.length > 0 && (
           <div className="mb-12">
             <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 mb-6">
@@ -213,32 +189,18 @@ export default function MeetingsPage() {
 
             <div className="grid gap-6">
               {pastMeetings.map((meeting) => (
-                <Card
-                  key={meeting.id}
-                  className="border-amber-200 dark:border-amber-800 hover:shadow-lg transition-shadow"
-                >
+                <Card key={meeting.id} className="border-amber-200 dark:border-amber-800 hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
                       <div>
                         <CardTitle className="text-lg text-foreground mb-2">{meeting.title}</CardTitle>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-muted-foreground text-sm">
-                          <div className="flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4" />
-                            <span>{meeting.date}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <Clock className="h-4 w-4" />
-                            <span>{meeting.time}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <MapPin className="h-4 w-4" />
-                            <span>{meeting.location}</span>
-                          </div>
+                          <div className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /><span>{meeting.date}</span></div>
+                          <div className="flex items-center gap-1.5"><Clock className="h-4 w-4" /><span>{meeting.time}</span></div>
+                          <div className="flex items-center gap-1.5"><MapPin className="h-4 w-4" /><span>{meeting.location}</span></div>
                         </div>
                       </div>
-                      <Badge variant="secondary" className="self-start sm:self-center">
-                        {meeting.status}
-                      </Badge>
+                      <Badge variant="secondary" className="self-start sm:self-center">{meeting.status}</Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -247,34 +209,19 @@ export default function MeetingsPage() {
                     </CardDescription>
                     <div className="flex flex-wrap gap-2">
                       {meeting.minutesButton && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                          disabled
-                        >
+                        <Button size="sm" variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                           <Download className="mr-2 h-3 w-3" />
                           {meeting.minutesButton}
                         </Button>
                       )}
                       {meeting.resolutionsButton && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                          disabled
-                        >
+                        <Button size="sm" variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                           <FileText className="mr-2 h-3 w-3" />
                           {meeting.resolutionsButton}
                         </Button>
                       )}
                       {meeting.recordingButton && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                          disabled
-                        >
+                        <Button size="sm" variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                           <Video className="mr-2 h-3 w-3" />
                           {meeting.recordingButton}
                         </Button>
@@ -287,6 +234,7 @@ export default function MeetingsPage() {
           </div>
         )}
 
+        {/* footer card */}
         {!currentUser && (
           <Card className="border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20">
             <CardContent className="p-6 sm:p-8">
@@ -296,18 +244,10 @@ export default function MeetingsPage() {
                 resources.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  onClick={handleRegistrationClick}
-                  className="cursor-pointer bg-amber-600 hover:bg-amber-700 text-black"
-                  disabled
-                >
+                <Button onClick={handleRegistrationClick} className="cursor-pointer bg-amber-600 hover:bg-amber-700 text-black" disabled>
                   Register for Updates
                 </Button>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent"
-                  disabled
-                >
+                <Button variant="outline" className="cursor-pointer border-amber-600 text-amber-600 hover:bg-amber-600/10 bg-transparent" disabled>
                   Shareholder Services
                 </Button>
               </div>
