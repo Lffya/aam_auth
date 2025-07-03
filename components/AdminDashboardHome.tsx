@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, Calendar, Users, Phone, TrendingUp, Eye, MessageSquare } from "lucide-react"
+import Image from "next/image"
 
 const stats = [
   {
@@ -70,15 +71,23 @@ export function AdminDashboardHome() {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
-        <div className="flex items-center justify-between">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white relative overflow-hidden">
+        {/* Background Logo */}
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-10">
+          <div className="w-32 h-32 relative">
+            <Image src="/images/amaraa-logo-gold.png" alt="House of Amaraa" fill className="object-contain" />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between relative z-10">
           <div>
             <h1 className="text-2xl font-bold mb-2">Welcome back, Admin! 👋</h1>
-            <p className="text-blue-100">Heres whats happening with your admin panel today.</p>
+            <p className="text-blue-100">Managing the House of Amaraa administrative operations.</p>
+            <p className="text-blue-200 text-sm mt-1 italic">Royalty • Wisdom • Legacy</p>
           </div>
           <div className="hidden md:block">
-            <div className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center">
-              <TrendingUp className="w-16 h-16 text-white/80" />
+            <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center">
+              <TrendingUp className="w-12 h-12 text-white/80" />
             </div>
           </div>
         </div>

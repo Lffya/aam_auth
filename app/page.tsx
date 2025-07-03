@@ -6,6 +6,7 @@ import { NoticesPage } from "@/components/NoticesPage"
 import { MeetingsPage } from "@/components/MeetingsPage"
 import { CareersPage } from "@/components/CareersPage"
 import { ContactPage } from "@/components/ContactPage"
+import Image from "next/image"
 
 export default function HomePage() {
   return (
@@ -13,7 +14,15 @@ export default function HomePage() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-[#c6a35d]">Amaraa Global</h1>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 relative">
+                <Image src="/images/amaraa-logo-beige.png" alt="House of Amaraa" fill className="object-contain" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-[#c6a35d]">House of Amaraa</h1>
+                <p className="text-xs text-gray-500">Royalty • Wisdom • Legacy</p>
+              </div>
+            </div>
             <Button asChild variant="outline">
               <a href="/admin">Admin Panel</a>
             </Button>

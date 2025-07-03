@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2 } from "lucide-react"
+import Image from "next/image"
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("")
@@ -54,11 +55,25 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the admin panel</CardDescription>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+      {/* Background Logo */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-5">
+        <div className="w-96 h-96 relative">
+          <Image src="/images/amaraa-logo-mono.png" alt="House of Amaraa" fill className="object-contain" />
+        </div>
+      </div>
+
+      <Card className="w-full max-w-md relative z-10 shadow-xl">
+        <CardHeader className="text-center pb-2">
+          <div className="w-20 h-20 mx-auto mb-4 relative">
+            <Image src="/images/amaraa-logo-beige.png" alt="House of Amaraa" fill className="object-contain" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-gray-900">House of Amaraa</CardTitle>
+          <CardDescription className="text-sm text-gray-600 mt-2">
+            Admin Panel Access
+            <br />
+            <span className="text-xs italic">Royalty • Wisdom • Legacy</span>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -89,7 +104,7 @@ export default function AdminLogin() {
             )}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Login
+              Access Admin Panel
             </Button>
           </form>
         </CardContent>

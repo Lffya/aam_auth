@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { FileText, Calendar, Users, Phone, Home, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 interface AdminSidebarProps {
   activeSection: string
@@ -50,10 +51,15 @@ const navigationItems = [
 
 export function AdminSidebar({ activeSection, onSectionChange }: AdminSidebarProps) {
   return (
-    <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-72 bg-white border-r border-gray-200 flex flex-col">
       {/* Logo/Brand */}
-      <div className="p-6 border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-900">Amaraa Admin</h1>
+      <div className="p-6 border-b border-gray-200 flex flex-col items-center">
+        <div className="w-24 h-24 mb-4 relative">
+          <Image src="/images/amaraa-logo-beige.png" alt="House of Amaraa" fill className="object-contain" />
+        </div>
+        <h1 className="text-xl font-bold text-gray-900 text-center">House of Amaraa</h1>
+        <p className="text-sm text-gray-500 text-center mt-1">Admin Panel</p>
+        <p className="text-xs text-gray-400 text-center mt-1 italic">Royalty • Wisdom • Legacy</p>
       </div>
 
       {/* Navigation */}
@@ -82,7 +88,8 @@ export function AdminSidebar({ activeSection, onSectionChange }: AdminSidebarPro
 
       {/* Footer */}
       <div className="p-4 border-t border-gray-200">
-        <p className="text-xs text-gray-500">© 2025 Amaraa Global</p>
+        <p className="text-xs text-gray-500 text-center">© 2025 House of Amaraa</p>
+        <p className="text-xs text-gray-400 text-center mt-1">Royalty • Wisdom • Legacy</p>
       </div>
     </div>
   )

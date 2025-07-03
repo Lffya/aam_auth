@@ -160,11 +160,11 @@ export function ContactPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handlePhoneChange = (e: { target: { name: string; value: string } }) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -172,7 +172,7 @@ export function ContactPage() {
     setIsSubmitting(true)
 
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const newSubmission: ContactSubmission = {
       id: Date.now().toString(),
@@ -180,7 +180,7 @@ export function ContactPage() {
       submittedAt: new Date().toISOString(),
     }
 
-    setSubmissions(prev => [newSubmission, ...prev])
+    setSubmissions((prev) => [newSubmission, ...prev])
     setFormData({ name: "", email: "", phone: "", message: "" })
     setSubmitSuccess(true)
     setIsSubmitting(false)
@@ -204,13 +204,13 @@ export function ContactPage() {
           <h2 className="text-3xl font-bold mb-6">Our Offices</h2>
           <div className="space-y-3">
             {globalLocations.map((location) => (
-              <button 
-                key={location.country} 
-                onClick={() => setSelectedLocation(location)} 
+              <button
+                key={location.country}
+                onClick={() => setSelectedLocation(location)}
                 className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-300 ${
-                  selectedLocation.country === location.country 
-                    ? 'border-[#c6a35d] bg-white dark:bg-gray-800 shadow-lg scale-105' 
-                    : 'border-transparent bg-gray-50 dark:bg-gray-900 hover:bg-white hover:dark:bg-gray-800'
+                  selectedLocation.country === location.country
+                    ? "border-[#c6a35d] bg-white dark:bg-gray-800 shadow-lg scale-105"
+                    : "border-transparent bg-gray-50 dark:bg-gray-900 hover:bg-white hover:dark:bg-gray-800"
                 }`}
               >
                 <div className="flex items-center gap-4">
@@ -224,7 +224,7 @@ export function ContactPage() {
             ))}
           </div>
         </div>
-        
+
         <div className="lg:col-span-8">
           <Card className="h-full">
             <CardContent className="p-8">
@@ -254,7 +254,8 @@ export function ContactPage() {
         <div className="space-y-8">
           <h2 className="text-4xl sm:text-5xl font-bold">Get in Touch</h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            Ready to explore opportunities with House of Amaraa? Reach out for partnerships, investments, or general inquiries. Our team is ready to connect with you.
+            Ready to explore opportunities with House of Amaraa? Reach out for partnerships, investments, or general
+            inquiries. Our team is ready to connect with you.
           </p>
           <div className="space-y-4">
             <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -277,71 +278,76 @@ export function ContactPage() {
             </div>
           </div>
         </div>
-        
+
         <div>
           <Card className="shadow-2xl">
             <CardContent className="p-8 sm:p-10">
               <h3 className="text-3xl font-bold mb-8">Send us a Message</h3>
               {submitSuccess && (
                 <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                  <p className="text-green-800 dark:text-green-200">Message sent successfully! Well get back to you soon.</p>
+                  <p className="text-green-800 dark:text-green-200">
+                    Message sent successfully! Well get back to you soon.
+                  </p>
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold mb-2">Name *</label>
-                  <Input 
-                    id="name" 
-                    name="name" 
-                    type="text" 
-                    value={formData.name} 
-                    onChange={handleInputChange} 
-                    className="h-12" 
-                    placeholder="Your name" 
-                    required 
+                  <label htmlFor="name" className="block text-sm font-semibold mb-2">
+                    Name *
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="h-12"
+                    placeholder="Your name"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold mb-2">Email *</label>
-                  <Input 
-                    id="email" 
-                    name="email" 
-                    type="email" 
-                    value={formData.email} 
-                    onChange={handleInputChange} 
-                    className="h-12" 
-                    placeholder="Your email" 
-                    required 
+                  <label htmlFor="email" className="block text-sm font-semibold mb-2">
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="h-12"
+                    placeholder="Your email"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold mb-2">Phone Number *</label>
-                  <PhoneInput 
-                    name="phone" 
-                    value={formData.phone}
-                    onChange={handlePhoneChange} 
-                    required 
-                  />
+                  <label htmlFor="phone" className="block text-sm font-semibold mb-2">
+                    Phone Number *
+                  </label>
+                  <PhoneInput name="phone" value={formData.phone} onChange={handlePhoneChange} required />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold mb-2">Message *</label>
-                  <Textarea 
-                    id="message" 
-                    name="message" 
-                    rows={5} 
-                    value={formData.message} 
-                    onChange={handleInputChange} 
-                    className="resize-none" 
-                    placeholder="Tell us about your inquiry..." 
-                    required 
+                  <label htmlFor="message" className="block text-sm font-semibold mb-2">
+                    Message *
+                  </label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="resize-none"
+                    placeholder="Tell us about your inquiry..."
+                    required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 bg-[#c6a35d] text-white font-bold text-lg hover:bg-[#b8954f] transition-all duration-300" 
+                <Button
+                  type="submit"
+                  className="w-full h-12 bg-[#c6a35d] text-white font-bold text-lg hover:bg-[#b8954f] transition-all duration-300"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : 'Send Message'}
+                  {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : "Send Message"}
                 </Button>
               </form>
             </CardContent>
@@ -349,7 +355,7 @@ export function ContactPage() {
         </div>
       </div>
 
-      {/* Contact Submissions (for demo purposes) */}
+      {/* Contact Submissions Display (for demo purposes) */}
       {submissions.length > 0 && (
         <div className="space-y-6">
           <h3 className="text-2xl font-bold">Recent Contact Submissions</h3>
@@ -358,18 +364,18 @@ export function ContactPage() {
               <Card key={submission.id} className="p-4">
                 <div className="flex justify-between items-start">
                   <div>
-                                        <h4 className="font-semibold">{submission.name}</h4>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">{submission.email}</p>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">{submission.phone}</p>
-                                        <p className="mt-2">{submission.message}</p>
-                                        <p className="text-xs text-gray-400 mt-1">Submitted at: {new Date(submission.submittedAt).toLocaleString()}</p>
-                                      </div>
-                                    </div>
-                                  </Card>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    }
+                    <h4 className="font-semibold">{submission.name}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{submission.email}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{submission.phone}</p>
+                    <p className="text-sm mt-2">{submission.message}</p>
+                  </div>
+                  <div className="text-xs text-gray-500">{new Date(submission.submittedAt).toLocaleDateString()}</div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
