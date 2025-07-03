@@ -252,7 +252,7 @@ export function CareersPage() {
           <h2 className="text-4xl sm:text-5xl font-bold text-[#232323] dark:text-white mb-4">Your Growth Timeline</h2>
         </div>
         <div className="relative border-l-4 border-[#c6a35d]/30 pl-6 space-y-8">
-          {careerJourney.map((phase, index) => (
+          {careerJourney.map((phase) => (
             <div key={phase.phase} className="relative group">
               <div className="absolute -left-3 top-1.5 w-6 h-6 rounded-full bg-[#c6a35d] flex items-center justify-center text-xs font-bold text-white shadow-lg">
                 {phase.phase}

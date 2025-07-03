@@ -240,7 +240,12 @@ export function ContactTab() {
                 <div className="flex gap-2">
                   <Select
                     value={selectedSubmission.status}
-                    onValueChange={(value) => handleStatusChange(selectedSubmission.id, value as any)}
+                    onValueChange={(value) =>
+                      handleStatusChange(
+                        selectedSubmission.id,
+                        value as "new" | "read" | "replied" | "archived"
+                      )
+                    }
                   >
                     <SelectTrigger className="w-[140px]">
                       <SelectValue placeholder="Change status" />

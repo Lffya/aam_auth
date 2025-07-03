@@ -241,7 +241,7 @@ export function CVTab() {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Select value={cv.status} onValueChange={(value) => handleStatusChange(cv.id, value as any)}>
+                    <Select value={cv.status} onValueChange={(value: "new" | "reviewed" | "shortlisted" | "rejected") => handleStatusChange(cv.id, value)}>
                       <SelectTrigger className="w-[120px]">
                         <SelectValue />
                       </SelectTrigger>

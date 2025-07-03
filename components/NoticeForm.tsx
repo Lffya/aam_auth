@@ -92,6 +92,7 @@ export function NoticeForm({ notice, onClose, onSave }: NoticeFormProps) {
 
     const noticeData = {
       ...formData,
+      priority: formData.priority as "low" | "medium" | "high",
       date: notice?.date || new Date().toISOString(),
     }
 

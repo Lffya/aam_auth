@@ -74,7 +74,7 @@ export function AdminDashboardHome() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold mb-2">Welcome back, Admin! 👋</h1>
-            <p className="text-blue-100">Here's what's happening with your admin panel today.</p>
+            <p className="text-blue-100">Heres whats happening with your admin panel today.</p>
           </div>
           <div className="hidden md:block">
             <div className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center">
