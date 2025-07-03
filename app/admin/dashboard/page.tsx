@@ -1,15 +1,19 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LogOut, FileText, Calendar } from "lucide-react"
+import { AdminSidebar } from "@/components/AdminSidebar"
+import { AdminHeader } from "@/components/AdminHeader"
 import { NoticesTab } from "@/components/NoticesTab"
 import { MeetingsTab } from "@/components/MeetingsTab"
+import { CareersTab } from "@/components/CareersTab"
+import { ContactTab } from "@/components/ContactTab"
+import { AdminDashboardHome } from "@/components/AdminDashboardHome"
+import { CVTab } from "@/components/CVTab"
 
 export default function AdminDashboard() {
   const router = useRouter()
+  const [activeSection, setActiveSection] = useState("dashboard")
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("admin-authenticated")
@@ -24,42 +28,32 @@ export default function AdminDashboard() {
     router.push("/admin")
   }
 
+  const renderContent = () => {
+    switch (activeSection) {
+      case "notices":
+        return <NoticesTab />
+      case "meetings":
+        return <MeetingsTab />
+      case "careers":
+        return <CareersTab />
+      case "cvs":
+        return <CVTab />
+      case "contact":
+        return <ContactTab />
+      default:
+        return <AdminDashboardHome />
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <Button onClick={handleLogout} variant="outline">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="flex h-screen bg-gray-50">
+      <AdminSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="notices" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="notices" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Notices & Announcements
-            </TabsTrigger>
-            <TabsTrigger value="meetings" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Meeting Information
-            </TabsTrigger>
-          </TabsList>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <AdminHeader onLogout={handleLogout} />
 
-          <TabsContent value="notices" className="mt-6">
-            <NoticesTab />
-          </TabsContent>
-
-          <TabsContent value="meetings" className="mt-6">
-            <MeetingsTab />
-          </TabsContent>
-        </Tabs>
-      </main>
+        <main className="flex-1 overflow-y-auto p-6">{renderContent()}</main>
+      </div>
     </div>
   )
 }

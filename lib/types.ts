@@ -32,12 +32,8 @@ export interface Meeting {
   type: "upcoming" | "past"
   date: string
   time: string
-  registerButton?: string
-  joinButton?: string
-  noticeButton?: string
-  minutesButton?: string
-  resolutionsButton?: string
-  recordingButton?: string
+  documentUrl?: string
+  documentName?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -50,4 +46,17 @@ export interface Resolution {
   meetingId?: string
   createdAt?: string
   updatedAt?: string
+}
+
+export interface CVSubmission {
+  id: string
+  name: string
+  email: string
+  phone: string
+  position: string
+  experience: string
+  cvUrl: string
+  cvFileName: string
+  status: "new" | "reviewed" | "shortlisted" | "rejected"
+  submittedAt: string
 }

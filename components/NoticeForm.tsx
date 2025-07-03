@@ -10,8 +10,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { X, Loader2 } from "lucide-react"
+import { X, Loader2, Upload } from "lucide-react"
 import type { Notice } from "@/lib/types"
+import { useUploadThing } from "@/lib/uploadthing"
 
 interface NoticeFormProps {
   notice?: Notice | null
@@ -20,15 +21,7 @@ interface NoticeFormProps {
 }
 
 export function NoticeForm({ notice, onClose, onSave }: NoticeFormProps) {
-  const [formData, setFormData] = useState<{
-    title: string
-    description: string
-    category: string
-    priority: "low" | "medium" | "high"
-    regulatory: string
-    fileUrl: string
-    fileName: string
-  }>({
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "",
@@ -39,6 +32,41 @@ export function NoticeForm({ notice, onClose, onSave }: NoticeFormProps) {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState("")
+
+  const [file, setFile] = useState<File | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
+
+  const { startUpload } = useUploadThing("pdfUploader", {
+    onClientUploadComplete: (res) => {
+      if (res && res[0]) {
+        setFormData((prev) => ({
+          ...prev,
+          fileUrl: res[0].url,
+          fileName: res[0].name,
+        }))
+      }
+      setIsUploading(false)
+    },
+    onUploadError: (error: Error) => {
+      console.error("Upload error:", error)
+      setIsUploading(false)
+    },
+  })
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile && selectedFile.type === "application/pdf") {
+      setFile(selectedFile)
+    } else {
+      alert("Please select a PDF file")
+    }
+  }
+
+  const handleFileUpload = async () => {
+    if (!file) return
+    setIsUploading(true)
+    await startUpload([file])
+  }
 
   useEffect(() => {
     if (notice) {
@@ -169,6 +197,26 @@ export function NoticeForm({ notice, onClose, onSave }: NoticeFormProps) {
                 onChange={(e) => handleInputChange("regulatory", e.target.value)}
                 placeholder="e.g., SEC, SEBI, etc."
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="file">Upload PDF Document</Label>
+              <div className="space-y-3">
+                <Input id="file" type="file" accept=".pdf" onChange={handleFileChange} />
+                {file && (
+                  <Button type="button" onClick={handleFileUpload} disabled={isUploading} className="w-full">
+                    {isUploading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Upload className="mr-2 h-4 w-4" />
+                    )}
+                    {isUploading ? "Uploading..." : "Upload PDF"}
+                  </Button>
+                )}
+                {formData.fileName && (
+                  <div className="text-sm text-green-600 bg-green-50 p-2 rounded">✓ Uploaded: {formData.fileName}</div>
+                )}
+              </div>
             </div>
 
             {success && (

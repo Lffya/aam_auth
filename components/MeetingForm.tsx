@@ -12,6 +12,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { X, Loader2 } from "lucide-react"
 import type { Meeting } from "@/lib/types"
+import { useUploadThing } from "@/lib/uploadthing"
+import { Upload } from "lucide-react"
 
 interface MeetingFormProps {
   meeting?: Meeting | null
@@ -20,6 +22,41 @@ interface MeetingFormProps {
 }
 
 export function MeetingForm({ meeting, onClose, onSave }: MeetingFormProps) {
+  const [file, setFile] = useState<File | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
+
+  const { startUpload } = useUploadThing("pdfUploader", {
+    onClientUploadComplete: (res) => {
+      if (res && res[0]) {
+        setFormData((prev) => ({
+          ...prev,
+          documentUrl: res[0].url,
+          documentName: res[0].name,
+        }))
+      }
+      setIsUploading(false)
+    },
+    onUploadError: (error: Error) => {
+      console.error("Upload error:", error)
+      setIsUploading(false)
+    },
+  })
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile && selectedFile.type === "application/pdf") {
+      setFile(selectedFile)
+    } else {
+      alert("Please select a PDF file")
+    }
+  }
+
+  const handleFileUpload = async () => {
+    if (!file) return
+    setIsUploading(true)
+    await startUpload([file])
+  }
+
   const [formData, setFormData] = useState({
     title: "",
     agenda: "",
@@ -28,12 +65,8 @@ export function MeetingForm({ meeting, onClose, onSave }: MeetingFormProps) {
     type: "upcoming" as "upcoming" | "past",
     date: "",
     time: "",
-    registerButton: "Register Now",
-    joinButton: "Join Meeting",
-    noticeButton: "Download Notice",
-    minutesButton: "Download Minutes",
-    resolutionsButton: "View Resolutions",
-    recordingButton: "Watch Recording",
+    documentUrl: "",
+    documentName: "",
   })
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState("")
@@ -48,12 +81,8 @@ export function MeetingForm({ meeting, onClose, onSave }: MeetingFormProps) {
         type: meeting.type || "upcoming",
         date: meeting.date || "",
         time: meeting.time || "",
-        registerButton: meeting.registerButton || "Register Now",
-        joinButton: meeting.joinButton || "Join Meeting",
-        noticeButton: meeting.noticeButton || "Download Notice",
-        minutesButton: meeting.minutesButton || "Download Minutes",
-        resolutionsButton: meeting.resolutionsButton || "View Resolutions",
-        recordingButton: meeting.recordingButton || "Watch Recording",
+        documentUrl: meeting.documentUrl || "",
+        documentName: meeting.documentName || "",
       })
     }
   }, [meeting])
@@ -163,6 +192,28 @@ export function MeetingForm({ meeting, onClose, onSave }: MeetingFormProps) {
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="document">Upload Meeting Document (PDF)</Label>
+              <div className="space-y-3">
+                <Input id="document" type="file" accept=".pdf" onChange={handleFileChange} />
+                {file && (
+                  <Button type="button" onClick={handleFileUpload} disabled={isUploading} className="w-full">
+                    {isUploading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Upload className="mr-2 h-4 w-4" />
+                    )}
+                    {isUploading ? "Uploading..." : "Upload PDF"}
+                  </Button>
+                )}
+                {formData.documentName && (
+                  <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
+                    ✓ Uploaded: {formData.documentName}
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="status">Status *</Label>
@@ -194,60 +245,6 @@ export function MeetingForm({ meeting, onClose, onSave }: MeetingFormProps) {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <Label>Button Labels</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="registerButton">Register Button</Label>
-                  <Input
-                    id="registerButton"
-                    value={formData.registerButton}
-                    onChange={(e) => handleInputChange("registerButton", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="joinButton">Join Button</Label>
-                  <Input
-                    id="joinButton"
-                    value={formData.joinButton}
-                    onChange={(e) => handleInputChange("joinButton", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="noticeButton">Notice Button</Label>
-                  <Input
-                    id="noticeButton"
-                    value={formData.noticeButton}
-                    onChange={(e) => handleInputChange("noticeButton", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="minutesButton">Minutes Button</Label>
-                  <Input
-                    id="minutesButton"
-                    value={formData.minutesButton}
-                    onChange={(e) => handleInputChange("minutesButton", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="resolutionsButton">Resolutions Button</Label>
-                  <Input
-                    id="resolutionsButton"
-                    value={formData.resolutionsButton}
-                    onChange={(e) => handleInputChange("resolutionsButton", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="recordingButton">Recording Button</Label>
-                  <Input
-                    id="recordingButton"
-                    value={formData.recordingButton}
-                    onChange={(e) => handleInputChange("recordingButton", e.target.value)}
-                  />
-                </div>
               </div>
             </div>
 
