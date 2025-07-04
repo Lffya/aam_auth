@@ -24,6 +24,12 @@ const navigationItems = [
     hasSubmenu: false,
   },
   {
+    id: "news",
+    label: "News Update",
+    icon: FileText,
+    hasSubmenu: false,
+  },
+  {
     id: "meetings",
     label: "Meeting Information",
     icon: Calendar,

@@ -10,6 +10,7 @@ import { CareersTab } from "@/components/CareersTab"
 import { ContactTab } from "@/components/ContactTab"
 import { AdminDashboardHome } from "@/components/AdminDashboardHome"
 import { CVTab } from "@/components/CVTab"
+import { NewsTab } from "@/components/NewsTab"
 
 export default function AdminDashboard() {
   const router = useRouter()
@@ -32,6 +33,8 @@ export default function AdminDashboard() {
     switch (activeSection) {
       case "notices":
         return <NoticesTab />
+      case "news":
+        return <NewsTab />
       case "meetings":
         return <MeetingsTab />
       case "careers":

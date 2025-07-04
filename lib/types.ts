@@ -60,3 +60,19 @@ export interface CVSubmission {
   status: "new" | "reviewed" | "shortlisted" | "rejected"
   submittedAt: string
 }
+
+export interface NewsArticle {
+  id: string
+  title: string
+  description: string
+  content: string
+  category: "Press Releases" | "Media Coverage" | "Events & Conferences" | "Awards & Recognitions"
+  date: string
+  author: string
+  imageSrc: string
+  videoUrl?: string
+  featured: boolean
+  tags: string[]
+  createdAt?: string
+  updatedAt?: string
+}

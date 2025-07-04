@@ -7,6 +7,7 @@ import { MeetingsPage } from "@/components/MeetingsPage"
 import { CareersPage } from "@/components/CareersPage"
 import { ContactPage } from "@/components/ContactPage"
 import Image from "next/image"
+import { NewsPage } from "@/components/NewsPage"
 
 export default function HomePage() {
   return (
@@ -32,10 +33,14 @@ export default function HomePage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="notices" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="notices" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Notices & Announcements
+            </TabsTrigger>
+            <TabsTrigger value="news" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              News Update
             </TabsTrigger>
             <TabsTrigger value="meetings" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
@@ -53,6 +58,10 @@ export default function HomePage() {
 
           <TabsContent value="notices">
             <NoticesPage />
+          </TabsContent>
+
+          <TabsContent value="news">
+            <NewsPage />
           </TabsContent>
 
           <TabsContent value="meetings">
